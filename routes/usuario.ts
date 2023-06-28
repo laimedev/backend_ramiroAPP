@@ -6,6 +6,7 @@ import { verificaToken } from "../middlewares/autenticacion";
 
 import  nodemailer  from "nodemailer";
 import { Area } from "../models/area.model";
+import { Carpeta } from "../models/carpeta.model";
 
 const userRoutes = Router();
 
@@ -272,10 +273,10 @@ userRoutes.get('/obtener', async (req: any, res: any) => {
     
         const areaIds = usuarios.map((usuarios) => usuarios.area_id);
     
-        const areas = await Area.find({ _id: { $in: areaIds } }, 'nombre').lean();
+        const areas = await Carpeta.find({ _id: { $in: areaIds } }, 'nota').lean();
     
         const areaMap = areas.reduce((acc, area) => {
-          acc[area._id] = area.nombre;
+          acc[area._id] = area.nota;
           return acc;
         }, {});
   

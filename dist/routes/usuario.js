@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
 const autenticacion_1 = require("../middlewares/autenticacion");
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const area_model_1 = require("../models/area.model");
+const carpeta_model_1 = require("../models/carpeta.model");
 const userRoutes = (0, express_1.Router)();
 //login
 userRoutes.post('/login', (req, res) => {
@@ -234,9 +234,9 @@ userRoutes.get('/obtener', (req, res) => __awaiter(void 0, void 0, void 0, funct
             usuario_model_1.Usuario.countDocuments(),
         ]);
         const areaIds = usuarios.map((usuarios) => usuarios.area_id);
-        const areas = yield area_model_1.Area.find({ _id: { $in: areaIds } }, 'nombre').lean();
+        const areas = yield carpeta_model_1.Carpeta.find({ _id: { $in: areaIds } }, 'nota').lean();
         const areaMap = areas.reduce((acc, area) => {
-            acc[area._id] = area.nombre;
+            acc[area._id] = area.nota;
             return acc;
         }, {});
         const areasConNombres = usuarios.map((usuarios) => (Object.assign(Object.assign({}, usuarios), { area_id: areaMap[usuarios.area_id] || null })));
