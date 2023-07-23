@@ -55,6 +55,15 @@ const usuarioSchema = new mongoose_1.Schema({
     estado: {
         type: String,
     },
+    calificacion1: {
+        type: String,
+    },
+    calificacion2: {
+        type: String,
+    },
+    comentario: {
+        type: String,
+    }
 });
 usuarioSchema.method('compararPassword', function (password = '') {
     if (bcrypt_1.default.compareSync(password, this.password)) {

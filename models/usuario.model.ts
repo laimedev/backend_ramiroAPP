@@ -50,6 +50,15 @@ const usuarioSchema = new Schema({
     estado: {
         type: String,
     },
+    calificacion1: {
+        type: String,
+    },
+    calificacion2: {
+        type: String,
+    },
+    comentario: {
+        type: String,
+    }
 });
 
 
@@ -80,6 +89,9 @@ interface IUsuario extends Document {
     celular: number;
     perfil: String;
     estado: string;
+    calificacion1: string;
+    calificacion2: string;
+    comentario: string;
     compararPassword(password: string): boolean;
 }
 

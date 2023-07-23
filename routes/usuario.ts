@@ -397,6 +397,72 @@ userRoutes.post('/updateAPP/:id', (req: any, res: Response) => {
 
 
 
+
+
+//ACTUALIZAR CALIFICACIONES
+userRoutes.post('/updateCalificacion/:id', (req: any, res: Response) => {
+    const id=req.params.id;
+    const usuario = {
+        calificacion1: req.body.calificacion1 || req.usuario.calificacion1,
+        calificacion2: req.body.calificacion2 || req.usuario.calificacion2,
+        comentario: req.body.comentario || req.usuario.comentario,
+    }
+    Usuario.findByIdAndUpdate(id, usuario, {new: true}, (err, usuario) => {
+        if(err) throw err;
+        if(!usuario){
+            return res.json({
+                ok:false,
+                mensaje: 'Invalid data'
+            })
+        }
+        res.json({
+            ok: true,
+            msg: 'Usuario actualizado correctamente',
+            usuario
+            
+        });usuario
+    })
+});
+
+
+
+
+//Obetner usuario calificaciones
+userRoutes.get('/obtenerCalificaciones', async (req: any, res: any) => {
+    const desde = Number(req.query.desde) || 0;
+    console.log(desde);
+  
+    const [usuarios, total] = await Promise.all([
+      Usuario.find({
+        $and: [
+          { calificacion1: { $ne: null } },
+          { calificacion2: { $ne: null } }
+        ]
+      })
+        .sort({ _id: -1 })
+        .select('_id nombre calificacion1 calificacion2 comentario') // Seleccionar los campos deseados
+        .skip(desde)
+        .limit(10),
+      Usuario.countDocuments({
+        $and: [
+          { calificacion1: { $ne: null } },
+          { calificacion2: { $ne: null } }
+        ]
+      })
+    ]);
+  
+    res.json({
+      ok: true,
+      usuarios,
+      total,
+      id: req.id
+    });
+  });
+
+
+
+
+
 userRoutes.post('/consultarDNI',  (req: any, res: Response ) => {
     const body = req.body;
     Usuario.findOne({dni:body.dni} , (err, userDB) => {
