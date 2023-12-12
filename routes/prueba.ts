@@ -49,6 +49,48 @@ pruebaRouter.get('/clasification', async (req: any, res: any) => {
 });
 
 
+
+
+//Obetner reporte totales
+pruebaRouter.get('/clasification/report', async (req, res) => {
+    try {
+        const clasifications = await Clasification.find();
+        const reports: any = [];
+
+        clasifications.forEach((item: any) => {
+            let countNormal = 0;
+            let countCaries = 0;
+
+            item.result.forEach((resultItem: any) => {
+                if (resultItem.label === 'Normal') {
+                    countNormal++;
+                } else if (resultItem.label === 'Caries') {
+                    countCaries++;
+                }
+            });
+
+            reports.push({
+                _id: item._id,
+                countNormal,
+                countCaries,
+                date: item.date,
+                title: item.title,
+                description: item.description,
+                result: item.result
+                // Agrega otros campos que desees incluir en el informe
+            });
+        });
+
+        res.json(reports);
+    } catch (error) {
+        console.error('Error en la consulta a la base de datos:', error);
+        res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+    }
+});
+
+
+
+
 //Obetner prueba
 pruebaRouter.get('/', async (req: any, res: any) => {
     const prueba = await Prueba.find()
