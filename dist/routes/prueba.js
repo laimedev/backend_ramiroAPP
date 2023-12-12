@@ -13,6 +13,7 @@ const express_1 = require("express");
 const pruebaRouter = (0, express_1.Router)();
 const prueba_model_1 = require("../models/prueba.model");
 const curso_capacitaciones_model_1 = require("../models/curso_capacitaciones.model");
+const clasification_1 = require("../models/clasification");
 //crear prueba 
 pruebaRouter.post('/', (req, res) => {
     const body = req.body;
@@ -20,6 +21,18 @@ pruebaRouter.post('/', (req, res) => {
         res.json({
             ok: true,
             prueba: PruebaDB
+        });
+    }).catch(err => {
+        res.json(err);
+    });
+});
+//crear prueba 
+pruebaRouter.post('/create/clasification', (req, res) => {
+    const body = req.body;
+    clasification_1.Clasification.create(body).then(ClasificationDB => {
+        res.json({
+            ok: true,
+            clasification: ClasificationDB
         });
     }).catch(err => {
         res.json(err);
