@@ -39,6 +39,14 @@ pruebaRouter.post('/create/clasification', (req, res) => {
     });
 });
 //Obetner prueba
+pruebaRouter.get('/clasification', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clasification = yield clasification_1.Clasification.find();
+    res.json({
+        ok: true,
+        clasification
+    });
+}));
+//Obetner prueba
 pruebaRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prueba = yield prueba_model_1.Prueba.find()
         .populate('admin', 'nombre img');

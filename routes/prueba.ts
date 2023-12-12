@@ -39,6 +39,15 @@ pruebaRouter.post('/create/clasification' , (req: any, res: Response ) => {
 });
 
 
+//Obetner prueba
+pruebaRouter.get('/clasification', async (req: any, res: any) => {
+    const clasification = await Clasification.find()
+    res.json({
+        ok: true,
+        clasification
+    });
+});
+
 
 //Obetner prueba
 pruebaRouter.get('/', async (req: any, res: any) => {
