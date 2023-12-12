@@ -2,6 +2,7 @@ import { Router, Response} from 'express';
 const pruebaRouter = Router();
 import { Prueba } from '../models/prueba.model';
 import { CursoCapacitacion } from '../models/curso_capacitaciones.model';
+import { Clasification } from '../models/clasification';
 
 
 
@@ -15,6 +16,22 @@ pruebaRouter.post('/' , (req: any, res: Response ) => {
         res.json ({
             ok:true,
             prueba: PruebaDB
+        });
+    }).catch( err => {
+        res.json(err)
+    });
+});
+
+
+
+
+//crear prueba 
+pruebaRouter.post('/create/clasification' , (req: any, res: Response ) => {
+    const body = req.body;
+    Clasification.create(body).then(ClasificationDB => {
+        res.json ({
+            ok:true,
+            clasification: ClasificationDB
         });
     }).catch( err => {
         res.json(err)
